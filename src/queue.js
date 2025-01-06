@@ -13,21 +13,47 @@ const { NotImplementedError } = require('../extensions/index.js');
  * queue.dequeue(); // returns the top element from queue and deletes it, returns 1
  * queue.getUnderlyingList() // returns { value: 3, next: null }
  */
+class ListNode {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
+
 class Queue {
-
-  getUnderlyingList() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor() {
+    this.head = null; // Points to the first node in the queue
+    this.tail = null; // Points to the last node in the queue
   }
 
-  enqueue(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  // Adds a value to the end of the queue
+  enqueue(value) {
+    const newNode = new ListNode(value);
+    if (this.tail) {
+      this.tail.next = newNode; // Link the new node to the end of the queue
+    }
+    this.tail = newNode; // Update the tail to the new node
+    if (!this.head) {
+      this.head = newNode; // If the queue was empty, the new node is also the head
+    }
   }
 
+  // Removes and returns the value from the head of the queue
   dequeue() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    if (!this.head) {
+      return null; // Queue is empty
+    }
+    const value = this.head.value;
+    this.head = this.head.next; // Move the head to the next node
+    if (!this.head) {
+      this.tail = null; // If the queue is now empty, reset the tail
+    }
+    return value;
+  }
+
+  // Returns the underlying linked list
+  getUnderlyingList() {
+    return this.head;
   }
 }
 
